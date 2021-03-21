@@ -3,6 +3,7 @@ import React from "react";
 import Helmet from "react-helmet";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import { isLoggedInVar } from "../apollo";
 import { Button } from "../components/button";
 import { FormError } from "../components/form-error";
 import nuberLogo from "../images/logo.svg";
@@ -28,7 +29,13 @@ interface ILoginForm {
 }
 
 export const Login = () => {
-  const { register, getValues, errors, handleSubmit, formState } = useForm<ILoginForm>({
+  const {
+    register,
+    getValues,
+    errors,
+    handleSubmit,
+    formState,
+  } = useForm<ILoginForm>({
     mode: "onChange",
   });
   const onCompleted = (data: loginMutation) => {
@@ -37,6 +44,7 @@ export const Login = () => {
     } = data;
     if (ok) {
       console.log(token);
+      isLoggedInVar(true);
     }
   };
   const [loginMutation, { data: loginMutationResult, loading }] = useMutation<
@@ -73,7 +81,10 @@ export const Login = () => {
           className="grid gap-3 mt-5 w-full mb-5"
         >
           <input
-            ref={register({ required: "Email is required" })}
+            ref={register({
+              required: "Email is required",
+              pattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+            })}
             name="email"
             required
             type="email"
@@ -82,6 +93,9 @@ export const Login = () => {
           />
           {errors.email?.message && (
             <FormError errorMessage={errors.email?.message} />
+          )}
+          {errors.email?.type === "pattern" && (
+            <FormError errorMessage={"Please enter a valid email"} />
           )}
           <input
             ref={register({ required: "Password is required" })}
