@@ -8,6 +8,8 @@ import {
 import { Restaurant } from "../../components/restaurant";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
+import { RESTAURANT_FRAGMENT } from "../../fragments";
+import { Helmet } from "react-helmet-async";
 
 const RESTAURANTS_QUERY = gql`
   query restaurantsPageQuery($input: RestaurantsInput!) {
@@ -27,17 +29,11 @@ const RESTAURANTS_QUERY = gql`
       error
       totalPages
       results {
-        id
-        name
-        coverImg
-        category {
-          name
-        }
-        address
-        isPromoted
+        ...RestaurantParts
       }
     }
   }
+  ${RESTAURANT_FRAGMENT}
 `;
 
 interface IFormProps {
@@ -62,7 +58,6 @@ export const Restaurants = () => {
   const history = useHistory();
   const onSearchSubmit = () => {
     const { searchTerm } = getValues();
-    console.log(getValues());
     history.push({
       pathname: "/search",
       search: `?term=${searchTerm}`,
@@ -70,6 +65,9 @@ export const Restaurants = () => {
   };
   return (
     <div>
+      <Helmet>
+        <title>Home | Nuber Eats</title>
+      </Helmet>
       <form
         onSubmit={handleSubmit(onSearchSubmit)}
         className="bg-gray-800 w-full py-40 flex items-center justify-center"

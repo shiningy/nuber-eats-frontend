@@ -17,13 +17,13 @@ const ClientRoutes = [
   <Route key={1} path="/" exact>
     <Restaurants />
   </Route>,
-  <Route key={2} path="/confirm" exact>
+  <Route key={2} path="/confirm">
     <ConfirmEmail />
   </Route>,
-  <Route key={3} path="/edit-profile" exact>
+  <Route key={3} path="/edit-profile">
     <EditProfile />
   </Route>,
-  <Route key={4} path="/search" exact>
+  <Route key={4} path="/search">
     <Search />
   </Route>,
 ];
