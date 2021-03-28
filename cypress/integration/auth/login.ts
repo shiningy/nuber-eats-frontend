@@ -15,7 +15,7 @@ describe("Log In", () => {
       .type("a")
       .clear();
   });
-  it("can fill out the form", () => {
+  it("can fill out the form and log in", () => {
     user.visit("/");
     user.findByPlaceholderText(/email/i).type("eric@yang.com");
     user.findByPlaceholderText(/password/i).type("12345");
@@ -25,7 +25,4 @@ describe("Log In", () => {
       .click();
     user.window().its("localStorage.nuber-token").should("be.a", "string");
   });
-  it("sign up", () => {
-    user.visit("/create-account");
-  })
 });
