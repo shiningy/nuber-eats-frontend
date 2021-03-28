@@ -19,7 +19,6 @@
     "@types/react-router-dom": "^5.1.6",
     "apollo": "^2.31.1",
     "autoprefixer": "^10.0.2",
-    "cypress": "^6.8.0",
     "eslint-plugin-jest": "^24.3.2",
     "google-map-react": "^2.1.9",
     "graphql": "^15.4.0",
@@ -72,5 +71,9 @@
       "./src/pages/**/*.tsx",
       "./src/routers/**/*.tsx"
     ]
+  },
+  "devDependencies": {
+    "@testing-library/cypress": "^7.0.2",
+    "cypress": "^6.8.0"
   }
 }
