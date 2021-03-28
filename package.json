@@ -20,6 +20,7 @@
     "apollo": "^2.31.1",
     "autoprefixer": "^10.0.2",
     "cypress": "^6.0.1",
+    "eslint-plugin-jest": "^24.3.2",
     "google-map-react": "^2.1.9",
     "graphql": "^15.4.0",
     "postcss": "^8.1.9",
@@ -42,7 +43,7 @@
     "start": "npm run apollo:codegen & npm run tailwind:build & react-scripts start",
     "apollo:codegen": " rimraf src/__generated__ && apollo client:codegen src/__generated__ --target=typescript --outputFlat",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --verbose",
     "test:coverage": "npm test -- --coverage --watchAll=false",
     "eject": "react-scripts eject"
   },
