@@ -65,7 +65,7 @@
     ]
   },
   "jest": {
-    "collectCoverageForm": [
+    "collectCoverageFrom": [
       "./src/components/**/*.tsx",
       "./src/pages/**/*.tsx",
       "./src/routers/**/*.tsx"
