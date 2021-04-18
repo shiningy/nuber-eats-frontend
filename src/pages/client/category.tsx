@@ -121,7 +121,3 @@ export const Category = () => {
     </div>
   );
 };
-function getValues(): { searchTerm: any; } {
-  throw new Error("Function not implemented.");
-}
-

@@ -27,7 +27,7 @@ interface IRestaurantParams {
 
 export const Restaurant = () => {
   const params = useParams<IRestaurantParams>();
-  const { loading, data } = useQuery<restaurant, restaurantVariables>(
+  const { data } = useQuery<restaurant, restaurantVariables>(
     RESTAURANT_QUERY,
     {
       variables: {
