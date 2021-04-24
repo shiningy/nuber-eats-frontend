@@ -2,6 +2,7 @@ import { gql, useQuery } from "@apollo/client";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 import { Dish } from "../../components/dish";
+import { VictoryAxis, VictoryBar, VictoryChart } from "victory";
 import { DISH_FRAGMENT, RESTAURANT_FRAGMENT } from "../../fragments";
 import {
   myRestaurant,
@@ -67,8 +68,9 @@ export const MyRestaurant = () => {
             <h4>Please upload a dish!</h4>
           ) : (
             <div className="grid mt-16 md:grid-cols-3 gap-x-5 gap-y-10">
-              {data?.myRestaurant.restaurant?.menu?.map((dish) => (
+              {data?.myRestaurant.restaurant?.menu?.map((dish, index) => (
                 <Dish
+                  key={index}
                   name={dish.name}
                   description={dish.description}
                   price={dish.price}
@@ -76,6 +78,27 @@ export const MyRestaurant = () => {
               ))}
             </div>
           )}
+        </div>
+        <div className="mt-20 mb-10">
+          <h4 className="text-center text-2xl font-medium">Sales</h4>
+          <div className="max-w-lg w-full mx-auto">
+            <VictoryChart domainPadding={20}>
+              <VictoryAxis
+                label="Amount of money"
+                dependentAxis
+                tickValues={[20, 30, 40, 50, 60]}
+              />
+              <VictoryAxis label="Days of Life" />
+              <VictoryBar
+                data={[
+                  { x: 10, y: 20 },
+                  { x: 20, y: 5 },
+                  { x: 35, y: 55 },
+                  { x: 45, y: 99 },
+                ]}
+              />
+            </VictoryChart>
+          </div>
         </div>
       </div>
     </div>
