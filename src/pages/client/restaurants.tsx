@@ -67,7 +67,7 @@ export const Restaurants = () => {
       </Helmet>
       <form
         onSubmit={handleSubmit(onSearchSubmit)}
-        className="bg-gray-800 w-full py-40 flex items-center justify-center"
+        className="bg-gray-800 w-full py-2 flex items-center justify-center"
       >
         <input
           ref={register({ required: true, min: 3 })}
@@ -78,7 +78,7 @@ export const Restaurants = () => {
         />
       </form>
       {!loading && (
-        <div className="max-w-screen-2xl pb-20 mx-auto mt-8">
+        <div className="max-w-screen-2xl pb-20 mx-auto mt-2">
           <div className="flex justify-around max-w-ms mx-auto">
             {data?.allCategories.categories?.map((category) => (
               <Link key={category.id} to={`/category/${category.slug}`}>
@@ -94,7 +94,7 @@ export const Restaurants = () => {
               </Link>
             ))}
           </div>
-          <div className="grid mt-16 md:grid-cols-3 gap-x-5 gap-y-10">
+          <div className="grid mt-2 md:grid-cols-3 gap-x-5 gap-y-10">
             {data?.restaurants.results?.map((restaurant) => (
               <Restaurant
                 key={restaurant.id}

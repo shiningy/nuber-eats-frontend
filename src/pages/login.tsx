@@ -7,6 +7,7 @@ import { authTokenVar, isLoggedInVar } from "../apollo";
 import { Button } from "../components/button";
 import { FormError } from "../components/form-error";
 import { LOCALSTORAGE_TOKEN } from "../constants";
+import { ME_QUERY } from "../hooks/useMe";
 import nuberLogo from "../images/logo.svg";
 import {
   loginMutation,

@@ -61,7 +61,7 @@ const clientRoutes = [
 
 const commonRoutes = [
   { path: "/confirm", component: <ConfirmEmail /> },
-  { path: "edit-profile", component: <EditProfile /> },
+  { path: "/edit-profile", component: <EditProfile /> },
 ];
 
 const restaurantRoutes = [

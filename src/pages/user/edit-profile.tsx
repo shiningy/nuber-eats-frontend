@@ -1,9 +1,11 @@
-import { gql, useMutation } from "@apollo/client";
+import { gql, useApolloClient, useMutation } from "@apollo/client";
 import React from "react";
 import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
-import { client } from "../../apollo";
+import { useHistory } from "react-router-dom";
+import { authTokenVar, client, isLoggedInVar } from "../../apollo";
 import { Button } from "../../components/button";
+import { LOCALSTORAGE_TOKEN } from "../../constants";
 import { useMe } from "../../hooks/useMe";
 import {
   editProfile,
@@ -26,6 +28,7 @@ interface IFormProps {
 
 export const EditProfile = () => {
   const { data: userData } = useMe();
+  const client = useApolloClient();
   const onCompleted = (data: editProfile) => {
     const {
       editProfile: { ok },
@@ -73,6 +76,14 @@ export const EditProfile = () => {
       },
     });
   };
+  const history = useHistory();
+  const onLogoutClick = () => {
+    localStorage.removeItem(LOCALSTORAGE_TOKEN);
+    authTokenVar("");
+    isLoggedInVar(false);
+    client.clearStore();
+    history.push("/");
+  }
   return (
     <div className="mt-52 flex flex-col justify-center items-center">
       <Helmet>
@@ -105,6 +116,12 @@ export const EditProfile = () => {
           actionText="Save Profile"
         />
       </form>
+      <span
+        className="cursor-pointer text-white bg-red-500 ml-3 py-3 px-4 mt-5 bg-"
+        onClick={() => onLogoutClick()}
+      >
+        Logout
+      </span>
     </div>
   );
 };
