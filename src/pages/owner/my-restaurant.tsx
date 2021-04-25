@@ -93,7 +93,6 @@ export const MyRestaurant = () => {
                   name={dish.name}
                   description={dish.description}
                   price={dish.price}
-                  addItemToOrder={() => null}
                 />
               ))}
             </div>

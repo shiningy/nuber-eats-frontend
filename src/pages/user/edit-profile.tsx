@@ -81,11 +81,11 @@ export const EditProfile = () => {
     localStorage.removeItem(LOCALSTORAGE_TOKEN);
     authTokenVar("");
     isLoggedInVar(false);
-    client.clearStore();
+    // client.clearStore();
     history.push("/");
   }
   return (
-    <div className="mt-52 flex flex-col justify-center items-center">
+    <div className="mt-5 flex flex-col justify-center items-center">
       <Helmet>
         <title>Edit Profile | Nuber Eats</title>
       </Helmet>
