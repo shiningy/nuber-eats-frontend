@@ -1,5 +1,6 @@
 {
-  "plugins": ["jest"],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["jest", "@typescript-eslint"],
   "rules": {
     "jest/no-disabled-tests": "warn",
     "jest/no-focused-tests": "error",
