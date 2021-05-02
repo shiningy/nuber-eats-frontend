@@ -1,6 +1,18 @@
 import React, { useEffect, useState } from "react";
 import GoogleMapReact, { Position } from "google-map-react";
+import { gql, useSubscription } from "@apollo/client";
+import { FULL_ORDER_FRAGMENT } from "../../fragments";
+import { cookedOrders } from "../../__generated__/cookedOrders";
+import { Link } from "react-router-dom";
 
+const COOKED_ORDERS_SUBSCRIPTION = gql`
+  subscription cookedOrders {
+    cookedOrders {
+      ...FullOrderParts
+    }
+  }
+  ${FULL_ORDER_FRAGMENT}
+`;
 interface ICoords {
   lat: number;
   lng: number;
@@ -14,7 +26,10 @@ interface IDriverProps {
 const Driver: React.FC<IDriverProps> = () => <div className="text-lg">🚖</div>;
 
 export const Dashboard = () => {
-  const [driverCoords, setDriverCoords] = useState<ICoords>({ lng: 127, lat: 37.5 });
+  const [driverCoords, setDriverCoords] = useState<ICoords>({
+    lng: 127,
+    lat: 37.5,
+  });
   const [map, setMap] = useState<google.maps.Map>();
   const [maps, setMaps] = useState<any>();
   // @ts-ignore
@@ -49,7 +64,7 @@ export const Dashboard = () => {
     setMap(map);
     setMaps(maps);
   };
-  const onGetRouteClick = () => {
+  const makeRoute = () => {
     if (map) {
       const directionsService = new google.maps.DirectionsService();
       const directionsRenderer = new google.maps.DirectionsRenderer({
@@ -57,8 +72,8 @@ export const Dashboard = () => {
           strokeColor: "#000",
           strokeOpacity: 1,
           strokeWeight: 5,
-        }
-      })
+        },
+      });
       directionsRenderer.setMap(map);
       directionsService.route(
         {
@@ -66,7 +81,7 @@ export const Dashboard = () => {
             location: new google.maps.LatLng(
               driverCoords.lat,
               driverCoords.lng
-            )
+            ),
           },
           destination: {
             location: new google.maps.LatLng(
@@ -79,9 +94,17 @@ export const Dashboard = () => {
         (result) => {
           directionsRenderer.setDirections(result);
         }
-      )
+      );
     }
-  }
+  };
+  const { data: cookedOrdersData } = useSubscription<cookedOrders>(
+    COOKED_ORDERS_SUBSCRIPTION
+  );
+  useEffect(() => {
+    if (cookedOrdersData?.cookedOrders.id) {
+      makeRoute();
+    }
+  }, [cookedOrdersData]);
   return (
     <div>
       <div
@@ -97,11 +120,30 @@ export const Dashboard = () => {
             lat: 36.58,
             lng: 126.95,
           }}
-          bootstrapURLKeys={{ key: "AIzaSyAu5o500KGYEH4LnRdBh2dCbXxUNBs1Ic0" }}
-        >
-        </GoogleMapReact>
+          bootstrapURLKeys={{ key: process.env.REACT_APP_AWS_KEY+"" }}
+        ></GoogleMapReact>
       </div>
-      <button onClick={onGetRouteClick}>Get route</button>
+      <div className="max-w-screen-sm mx-auto bg-white relative -top-10 shadow-lg py-8 px-5">
+        {cookedOrdersData?.cookedOrders.restaurant ? (
+          <>
+            <h1 className="text-center text-3xl font-medium">
+              New Cooked Order
+            </h1>
+            <h1 className="text-center my-3 text-2xl font-medium">
+              Pick it up soon @{" "}
+              {cookedOrdersData?.cookedOrders.restaurant?.name}
+            </h1>
+            <Link
+              to={`/orders/${cookedOrdersData?.cookedOrders.id}`}
+              className="btn w-full block text-center mt-5"
+            >
+              Accept Challenge &rarr;
+            </Link>
+          </>
+        ) : (
+          <h1 className="text-center text-3xl font-medium">No orders yet...</h1>
+        )}
+      </div>
     </div>
   );
 };
